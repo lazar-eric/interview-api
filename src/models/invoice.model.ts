@@ -1,9 +1,10 @@
-import { ModelStatic, Op, Order, WhereOptions } from 'sequelize';
+import { Includeable, ModelStatic, Op, Order, WhereOptions } from 'sequelize';
 
 import { MongoResponse, Query } from '@amaui/models';
 
 import BaseModel from './base.model';
 import { IRequest } from 'types';
+import User from './user.model';
 
 export interface IInvoice {
   id: number;
@@ -65,6 +66,10 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
   }
 
   public static async query(req: IRequest) {
+    const {
+      user
+    } = req;
+
     const query = Query.fromRequest(req);
 
     // Todo
@@ -91,12 +96,23 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
       };
     }
 
+    const include: Includeable[] = [
+      {
+        model: User.model,
+        where: {
+          id: user.id
+        },
+        required: true
+      }
+    ];
+
     const order: Order = [
       ['added_at', 'DESC']
     ];
 
     const result = await Invoice.model.findAndCountAll({
       where,
+      include,
       order,
       limit,
       offset
@@ -114,7 +130,7 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
   public toObjectMySQL() {
     const value: Partial<IInvoice> = {};
 
-    const properties = ['id', 'to', 'city', 'country', 'added_at'];
+    const properties = ['id', 'to', 'city', 'country', 'user', 'added_at'];
 
     properties.forEach(item => {
       if (this[item] !== undefined) value[item] = this[item];

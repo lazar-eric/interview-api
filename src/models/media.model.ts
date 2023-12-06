@@ -1,9 +1,10 @@
-import { CreateOptions, ModelStatic, Op, Order, WhereOptions } from 'sequelize';
+import { CreateOptions, Includeable, ModelStatic, Op, Order, WhereOptions } from 'sequelize';
 
 import { MongoResponse, Query } from '@amaui/models';
 
 import BaseModel from './base.model';
 import { IRequest } from 'types';
+import User from './user.model';
 
 export interface IMedia {
   id: number;
@@ -61,6 +62,10 @@ export default class Media extends BaseModel implements Partial<IMedia> {
   }
 
   public static async query(req: IRequest) {
+    const {
+      user
+    } = req;
+
     const query = Query.fromRequest(req);
 
     // Todo
@@ -71,7 +76,9 @@ export default class Media extends BaseModel implements Partial<IMedia> {
     const limit = query.limit;
     const offset = query.skip;
 
-    const where: WhereOptions<IMedia> = {};
+    const where: WhereOptions<IMedia> = {
+
+    };
 
     const value = query.query;
 
@@ -87,12 +94,23 @@ export default class Media extends BaseModel implements Partial<IMedia> {
       };
     }
 
+    const include: Includeable[] = [
+      {
+        model: User.model,
+        where: {
+          id: user.id
+        },
+        required: true
+      }
+    ];
+
     const order: Order = [
       ['added_at', 'DESC']
     ];
 
     const result = await Media.model.findAndCountAll({
       where,
+      include,
       order,
       limit,
       offset
@@ -110,7 +128,7 @@ export default class Media extends BaseModel implements Partial<IMedia> {
   public toObjectMySQL() {
     const value: Partial<IMedia> = {};
 
-    const properties = ['id', 'name', 'mime', 'added_at'];
+    const properties = ['id', 'name', 'mime', 'size', 'user', 'added_at'];
 
     properties.forEach(item => {
       if (this[item] !== undefined) value[item] = this[item];

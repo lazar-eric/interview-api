@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 
 import config from 'config';
-import { invoice, media, user } from './models';
-import { Invoice, Media, User } from 'models';
+import { contract, invoice, media, user } from './models';
+import { Contract, Invoice, Media, User } from 'models';
 
 export class MySQL {
   public sequelize: Sequelize;
@@ -30,6 +30,11 @@ export class MySQL {
     Invoice.model = this.sequelize.define(invoice.name, invoice.object, invoice.options);
 
     await Invoice.model.sync(options);
+
+    // Contract
+    Contract.model = this.sequelize.define(contract.name, contract.object, contract.options);
+
+    await Contract.model.sync(options);
   }
 
   public async connection() {
