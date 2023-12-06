@@ -1,5 +1,6 @@
-import { IInvoice } from 'models/invoice.model';
 import { Invoice, User } from 'models';
+import { IInvoice } from 'models/invoice.model';
+import { IUser } from 'models/user.model';
 
 export class CompanyService {
 
@@ -7,7 +8,7 @@ export class CompanyService {
     const usersPrevious = await User.model.findAll({ limit: 1 });
 
     if (!usersPrevious.length) {
-      const values: Partial<IInvoice>[] = [
+      const values: Partial<IUser>[] = [
         { name: 'Lazar Eric', email: 'lazareric2@gmail.com' }
       ];
 

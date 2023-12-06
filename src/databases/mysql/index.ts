@@ -21,16 +21,12 @@ export class MySQL {
 
     User.model = this.sequelize.define(userModel.name, userModel.object, userModel.options);
 
-    await User.model.sync(options);
-
     // Media
     const mediaModel = media(User.model);
 
     Media.model = this.sequelize.define(mediaModel.name, mediaModel.object, mediaModel.options);
 
     Media.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
-
-    await Media.model.sync(options);
 
     // Invoice
     const invoiceModel = invoice(User.model);
@@ -39,8 +35,6 @@ export class MySQL {
 
     Invoice.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
-    await Invoice.model.sync(options);
-
     // Contract
     const contractModel = contract(User.model);
 
@@ -48,7 +42,8 @@ export class MySQL {
 
     Contract.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
-    await Contract.model.sync(options);
+    // create tables
+    await this.sequelize.sync(options);
   }
 
   public async connection() {

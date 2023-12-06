@@ -4,6 +4,7 @@ module.exports = {
     'ts-node/register/transpile-only'
   ],
   files: [
+    'test/utils/start.ts',
     'test/**/*.test.ts'
   ]
 };

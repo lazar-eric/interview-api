@@ -22,7 +22,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'company-test'
-      MYSQL_USER: 'lazar'
+      MYSQL_USER: 'lazar-test'
       MYSQL_PASSWORD: 'company-test'
       MYSQL_ROOT_PASSWORD: 'company-test'
     ports:
