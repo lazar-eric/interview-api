@@ -53,7 +53,7 @@ export default class User extends BaseModel implements Partial<IUser> {
     // or whatever
     const response = await User.model.create(this.toObjectMySQL(), options);
 
-    return response;
+    return new User(response).toObjectResponse();
   }
 
   public static async query(req: IRequest) {

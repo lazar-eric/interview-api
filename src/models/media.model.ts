@@ -58,7 +58,7 @@ export default class Media extends BaseModel implements Partial<IMedia> {
     // or whatever
     const response = await Media.model.create(this.toObjectMySQL(), options);
 
-    return response;
+    return new Media(response).toObjectResponse();
   }
 
   public static async query(req: IRequest) {

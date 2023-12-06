@@ -8,7 +8,7 @@ export default function model(version: 'add' = 'add'): IValidateModel {
     '': {
       name: 'Contract',
       is: 'object',
-      properties: ['name', 'description', 'date', 'reviewed', 'signature']
+      properties: ['name', 'description', 'date', 'reviewed', 'signature', 'user']
     },
 
     name: {
@@ -41,6 +41,11 @@ export default function model(version: 'add' = 'add'): IValidateModel {
       is: 'string',
       min: 1,
       max: 4e4
+    },
+
+    user: {
+      name: 'User',
+      is: 'number'
     }
   };
 
@@ -74,6 +79,12 @@ export default function model(version: 'add' = 'add'): IValidateModel {
 
     'signature': {
       ...values.signature,
+
+      required: true
+    },
+
+    'user': {
+      ...values.user,
 
       required: true
     }

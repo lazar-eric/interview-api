@@ -1,9 +1,10 @@
-import BaseService from "./base.service";
+import { Contract } from 'models';
+import BaseService from './base.service';
 
 export class ContractService extends BaseService<undefined> {
 
   public constructor() {
-    super(undefined, 'contracts', 'contract');
+    super(Contract, 'contracts', 'contract');
   }
 
 }

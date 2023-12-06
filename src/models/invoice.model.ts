@@ -62,7 +62,7 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
     // or whatever
     const response = await Invoice.model.create(this.toObjectMySQL());
 
-    return response;
+    return new Invoice(response).toObjectResponse();
   }
 
   public static async query(req: IRequest) {

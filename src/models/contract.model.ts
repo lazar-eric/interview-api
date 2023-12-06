@@ -17,7 +17,7 @@ export interface IContract {
   added_at: number;
 }
 
-export default class Invoice extends BaseModel implements Partial<IContract> {
+export default class Contract extends BaseModel implements Partial<IContract> {
   public id: number;
   public name: string;
   public description: string;
@@ -66,9 +66,9 @@ export default class Invoice extends BaseModel implements Partial<IContract> {
     // Todo
     // Some pre-add logic based on the request
     // or whatever
-    const response = await Invoice.model.create(this.toObjectMySQL());
+    const response = await Contract.model.create(this.toObjectMySQL());
 
-    return response;
+    return new Contract(response).toObjectResponse();
   }
 
   public static async query(req: IRequest) {
@@ -114,7 +114,7 @@ export default class Invoice extends BaseModel implements Partial<IContract> {
       ['added_at', 'DESC']
     ];
 
-    const result = await Invoice.model.findAndCountAll({
+    const result = await Contract.model.findAndCountAll({
       where,
       include,
       order,
@@ -124,7 +124,7 @@ export default class Invoice extends BaseModel implements Partial<IContract> {
 
     const response = new MongoResponse();
 
-    response.response = result.rows.map(item => new Invoice(item).toObjectResponse());
+    response.response = result.rows.map(item => new Contract(item).toObjectResponse());
 
     response.total = result.count;
 
