@@ -96,6 +96,8 @@ export class MediaService extends BaseService<IMedia> {
       // add to the object
       Object.keys(values).forEach(item => media[item] = values[item]);
 
+      media.user = user.id;
+
       media.mime = file.mimetype;
 
       media.size = file.size;
@@ -105,18 +107,12 @@ export class MediaService extends BaseService<IMedia> {
       const response = await mysql.sequelize.transaction(async transaction => {
         const result = await media.add({ transaction }, req);
 
-        const id = String(result.id);
+        const ID = String(result.id);
 
         // Add to AWS
         const toAdd: Array<{ id: string; value: Buffer }> = [];
 
-        if (media.mime.includes('image') || media.mime.includes('video')) {
-
-        }
-        else {
-          // audio, video, text, etc.
-          toAdd.push({ id, value: fileData });
-        }
+        toAdd.push({ id: ID, value: fileData });
 
         // add
         // all the items to aws
@@ -153,6 +149,7 @@ export class MediaService extends BaseService<IMedia> {
       include: [
         {
           model: User.model,
+          as: 'user_id',
           where: {
             id: user.id
           }
@@ -197,6 +194,7 @@ export class MediaService extends BaseService<IMedia> {
       include: [
         {
           model: User.model,
+          as: 'user_id',
           where: {
             id: user.id
           }
