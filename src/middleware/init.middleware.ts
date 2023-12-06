@@ -14,25 +14,25 @@ const method = async (req: IRequest, res: IResponse, next: INext) => {
     // get the user, organization... validate that they exist and are active etc.
 
     // Only if there's a token
-    if (token) {
-      // Verify the token
-      // const value = verify(token, !!req.headers.authorization) as any;
+    // if (token) {
+    // Verify the token
+    // const value = verify(token, !!req.headers.authorization) as any;
 
-      // dummy
-      const user = {
-        id: 1,
-        name: 'Lazar Eric',
-        email: 'lazareric2@gmail.com',
-        active: true
-      };
+    // dummy
+    const user = {
+      id: 1,
+      name: 'Lazar Eric',
+      email: 'lazareric2@gmail.com',
+      active: true
+    };
 
-      // request
-      // user
-      req.user = user;
+    // request
+    // user
+    req.user = user;
 
-      // organization
-      // req.organization = organization;
-    }
+    // organization
+    // req.organization = organization;
+    // }
 
     return next();
   }

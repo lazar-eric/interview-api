@@ -1,13 +1,28 @@
 import { Sequelize } from 'sequelize';
 
 import config from 'config';
+import { invoice, user } from './models';
+import { Invoice, User } from 'models';
 
 export class MySQL {
   public sequelize: Sequelize;
   public connected = false;
 
   public constructor() {
-    this.sequelize = new Sequelize({ dialect: 'mysql' });
+
+  }
+
+  public async init() {
+    // init all the models
+    // User
+    User.model = this.sequelize.define(user.name, user.object, user.options);
+
+    await User.model.sync();
+
+    // Invoice
+    Invoice.model = this.sequelize.define(invoice.name, invoice.object, invoice.options);
+
+    await Invoice.model.sync();
   }
 
   public async connection() {
@@ -21,6 +36,8 @@ export class MySQL {
       this.sequelize = new Sequelize(config.value.db.mysql.uri);
 
       await this.sequelize.authenticate();
+
+      await this.init();
 
       console.log(`MySQL connected`);
     }

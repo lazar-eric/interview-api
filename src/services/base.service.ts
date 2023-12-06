@@ -21,17 +21,7 @@ export class BaseService<IModel> {
   }
 
   public async query(req: IRequest): Promise<IMongoResponse> {
-    // const query = Query.fromRequest(req);
-
-    // query.query = await this.Model.query(query.query, req);
-
-    // query.sort = await this.Model.sort(query.sort, req);
-
-    // const response = await this.Models.searchMany(query, { options: this.options, lookups: this.lookups });
-
-    // return response;
-
-    return;
+    return this.Model.query(req);
   }
 
 }

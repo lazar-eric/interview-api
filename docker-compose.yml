@@ -14,7 +14,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ~/.apps/mysql:/var/lib/mysql
+      - ~/.apps/mysql_company:/var/lib/mysql
 
   postgres:
     image: postgres
@@ -22,7 +22,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ~/.apps/postgres:/var/lib/postgresql/data
+      - ~/.apps/postgres_company:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=lazar
       - POSTGRES_PASSWORD=company

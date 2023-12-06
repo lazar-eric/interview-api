@@ -1,49 +1,41 @@
-import { ModelStatic, Op, Order, WhereOptions } from 'sequelize';
+import { CreateOptions, ModelStatic, Op, Order, WhereOptions } from 'sequelize';
 
 import { MongoResponse, Query } from '@amaui/models';
 
 import BaseModel from './base.model';
 import { IRequest } from 'types';
 
-export interface IInvoice {
+export interface IUser {
   id: number;
-  to: string;
-  city: string;
-  country: string;
-  user: number;
+  name: string;
+  email: string;
   added_at: number;
 
   [p: string]: any;
 }
 
-export default class Invoice extends BaseModel implements Partial<IInvoice> {
+export default class User extends BaseModel implements Partial<IUser> {
   public id: number;
-  public to: string;
-  public city: string;
-  public country: string;
-  public user: number;
+  public name: string;
+  public email: string;
   public added_at: number;
 
   public static model: ModelStatic<any>;
 
-  public constructor(value: IInvoice) {
+  public constructor(value: IUser) {
     super();
 
     this.init(value);
   }
 
-  public init(value: IInvoice) {
+  public init(value: IUser) {
     // Only allowed values for the model
     if (value) {
       if (value.id !== undefined) this.id = value.id;
 
-      if (value.to !== undefined) this.to = value.to;
+      if (value.name !== undefined) this.name = value.name;
 
-      if (value.city !== undefined) this.city = value.city;
-
-      if (value.country !== undefined) this.country = value.country;
-
-      if (value.user !== undefined) this.user = value.user;
+      if (value.email !== undefined) this.email = value.email;
 
       if (value.added_at !== undefined) this.added_at = value.added_at;
 
@@ -55,11 +47,11 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
     return this;
   }
 
-  public async add(req: IRequest) {
+  public async add(options?: CreateOptions<any>, req?: IRequest) {
     // Todo
     // Some pre-add logic based on the request
     // or whatever
-    const response = await Invoice.model.create(this.toObjectMySQL());
+    const response = await User.model.create(this.toObjectMySQL(), options);
 
     return response;
   }
@@ -75,19 +67,19 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
     const limit = query.limit;
     const offset = query.skip;
 
-    const where: WhereOptions<IInvoice> = {};
+    const where: WhereOptions<IUser> = {};
 
     const value = query.query;
 
-    if (value?.city !== undefined) {
-      where.city = {
-        [Op.like]: `%${value.city}%`
+    if (value?.name !== undefined) {
+      where.name = {
+        [Op.like]: `%${value.name}%`
       };
     }
 
-    if (value?.country !== undefined) {
-      where.country = {
-        [Op.like]: `%${value.country}%`
+    if (value?.email !== undefined) {
+      where.email = {
+        [Op.like]: `%${value.email}%`
       };
     }
 
@@ -95,7 +87,7 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
       ['added_at', 'DESC']
     ];
 
-    const result = await Invoice.model.findAndCountAll({
+    const result = await User.model.findAndCountAll({
       where,
       order,
       limit,
@@ -104,7 +96,7 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
 
     const response = new MongoResponse();
 
-    response.response = result.rows.map(item => new Invoice(item).toObjectResponse());
+    response.response = result.rows.map(item => new User(item).toObjectResponse());
 
     response.total = result.count;
 
@@ -112,9 +104,9 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
   }
 
   public toObjectMySQL() {
-    const value: Partial<IInvoice> = {};
+    const value: Partial<IUser> = {};
 
-    const properties = ['id', 'to', 'city', 'country', 'added_at'];
+    const properties = ['id', 'name', 'email', 'added_at'];
 
     properties.forEach(item => {
       if (this[item] !== undefined) value[item] = this[item];
