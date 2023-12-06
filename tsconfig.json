@@ -2,8 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "outDir": "./build",
-    "target": "ES2017",
-    "jsx": "react",
+    "target": "ES2015",
     "allowJs": true,
     "module": "commonjs",
     "esModuleInterop": true,

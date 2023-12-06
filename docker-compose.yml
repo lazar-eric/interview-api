@@ -16,6 +16,20 @@ services:
     volumes:
       - ~/.apps/mysql_company:/var/lib/mysql
 
+  mysql-test:
+    image: mysql
+    container_name: mysql-company-test
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'company-test'
+      MYSQL_USER: 'lazar'
+      MYSQL_PASSWORD: 'company-test'
+      MYSQL_ROOT_PASSWORD: 'company-test'
+    ports:
+      - '7306:3306'
+    volumes:
+      - ~/.apps/mysql_company:/var/lib/mysql
+
   postgres:
     image: postgres
     container_name: postgres-company
