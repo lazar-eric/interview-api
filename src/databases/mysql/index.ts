@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 
 import config from 'config';
-import { invoice, user } from './models';
-import { Invoice, User } from 'models';
+import { invoice, media, user } from './models';
+import { Invoice, Media, User } from 'models';
 
 export class MySQL {
   public sequelize: Sequelize;
@@ -14,15 +14,22 @@ export class MySQL {
 
   public async init() {
     // init all the models
+    const options = config.value.env === 'test' ? { force: true } : undefined;
+
     // User
     User.model = this.sequelize.define(user.name, user.object, user.options);
 
-    await User.model.sync();
+    await User.model.sync(options);
+
+    // Media
+    Media.model = this.sequelize.define(media.name, media.object, media.options);
+
+    await Media.model.sync(options);
 
     // Invoice
     Invoice.model = this.sequelize.define(invoice.name, invoice.object, invoice.options);
 
-    await Invoice.model.sync();
+    await Invoice.model.sync(options);
   }
 
   public async connection() {

@@ -3,11 +3,13 @@ import express from 'express';
 import { Routes } from '@amaui/api';
 
 import RootRoute from './root.route';
+import MediaRoute from './media.route';
 import InvoiceRoute from './invoice.route';
 import ContractRoute from './contract.route';
 
 const routes = [
   RootRoute,
+  MediaRoute,
   InvoiceRoute,
   ContractRoute
 ];

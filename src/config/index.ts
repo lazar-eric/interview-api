@@ -30,6 +30,12 @@ class Config {
         minute: 140
       },
 
+      // media
+      media: {
+        // 104 mb
+        document: 104 * 1024 * 1024
+      },
+
       // 100 mb
       request: 1024 * 1024 * 100
     },
@@ -59,6 +65,10 @@ class Config {
         api: {
           second: castParam(process.env.CONFIG_LIMITS_API_SECOND || this.values.limits.api.second),
           minute: castParam(process.env.CONFIG_LIMITS_API_MINUTE || this.values.limits.api.minute)
+        },
+
+        media: {
+          document: castParam(process.env.CONFIG_LIMITS_MEDIA_DOCUMENT || this.values.limits.media.document)
         },
 
         request: castParam(process.env.CONFIG_LIMITS_REQUEST || this.values.limits.request)
