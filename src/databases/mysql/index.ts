@@ -17,22 +17,36 @@ export class MySQL {
     const options = config.value.env === 'test' ? { force: true } : undefined;
 
     // User
-    User.model = this.sequelize.define(user.name, user.object, user.options);
+    const userModel = user();
+
+    User.model = this.sequelize.define(userModel.name, userModel.object, userModel.options);
 
     await User.model.sync(options);
 
     // Media
-    Media.model = this.sequelize.define(media.name, media.object, media.options);
+    const mediaModel = media(User.model);
+
+    Media.model = this.sequelize.define(mediaModel.name, mediaModel.object, mediaModel.options);
+
+    Media.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
     await Media.model.sync(options);
 
     // Invoice
-    Invoice.model = this.sequelize.define(invoice.name, invoice.object, invoice.options);
+    const invoiceModel = invoice(User.model);
+
+    Invoice.model = this.sequelize.define(invoiceModel.name, invoiceModel.object, invoiceModel.options);
+
+    Invoice.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
     await Invoice.model.sync(options);
 
     // Contract
-    Contract.model = this.sequelize.define(contract.name, contract.object, contract.options);
+    const contractModel = contract(User.model);
+
+    Contract.model = this.sequelize.define(contractModel.name, contractModel.object, contractModel.options);
+
+    Contract.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
     await Contract.model.sync(options);
   }

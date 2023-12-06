@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 
 import { AmauiDate } from '@amaui/date';
 
-export default {
+export default (User: any) => ({
   name: 'media',
   object: {
     id: {
@@ -28,16 +28,6 @@ export default {
       allowNull: false
     },
 
-    user: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
-
     added_at: {
       type: DataTypes.INTEGER.UNSIGNED,
       defaultValue: () => AmauiDate.unix
@@ -46,4 +36,4 @@ export default {
   options: {
     timestamps: false
   }
-} as any;
+}) as any;

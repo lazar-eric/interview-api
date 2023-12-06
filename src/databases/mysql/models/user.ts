@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 
 import { AmauiDate } from '@amaui/date';
 
-export default {
+export default () => ({
   name: 'user',
   object: {
     id: {
@@ -31,4 +31,4 @@ export default {
   options: {
     timestamps: false
   }
-} as any;
+}) as any;

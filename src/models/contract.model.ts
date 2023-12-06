@@ -103,6 +103,7 @@ export default class Contract extends BaseModel implements Partial<IContract> {
     const include: Includeable[] = [
       {
         model: User.model,
+        as: 'user_id',
         where: {
           id: user.id
         },
@@ -124,7 +125,13 @@ export default class Contract extends BaseModel implements Partial<IContract> {
 
     const response = new MongoResponse();
 
-    response.response = result.rows.map(item => new Contract(item).toObjectResponse());
+    response.response = result.rows.map(item => {
+      const value = new Contract(item).toObjectResponse();
+
+      value.user = new User(item.user_id).toObjectResponse();
+
+      return value;
+    });
 
     response.total = result.count;
 

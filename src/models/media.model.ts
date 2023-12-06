@@ -11,6 +11,7 @@ export interface IMedia {
   name: string;
   mime: string;
   size: number;
+  user: number;
   added_at: number;
 
   [p: string]: any;
@@ -21,6 +22,7 @@ export default class Media extends BaseModel implements Partial<IMedia> {
   public name: string;
   public mime: string;
   public size: number;
+  public user: number;
   public added_at: number;
 
   public static model: ModelStatic<any>;
@@ -41,6 +43,8 @@ export default class Media extends BaseModel implements Partial<IMedia> {
       if (value.mime !== undefined) this.mime = value.mime;
 
       if (value.size !== undefined) this.size = value.size;
+
+      if (value.user !== undefined) this.user = value.user;
 
       if (value.added_at !== undefined) this.added_at = value.added_at;
 
@@ -97,6 +101,7 @@ export default class Media extends BaseModel implements Partial<IMedia> {
     const include: Includeable[] = [
       {
         model: User.model,
+        as: 'user_id',
         where: {
           id: user.id
         },
@@ -118,7 +123,13 @@ export default class Media extends BaseModel implements Partial<IMedia> {
 
     const response = new MongoResponse();
 
-    response.response = result.rows.map(item => new Media(item).toObjectResponse());
+    response.response = result.rows.map(item => {
+      const value = new Media(item).toObjectResponse();
+
+      value.user = new User(item.user_id).toObjectResponse();
+
+      return value;
+    });
 
     response.total = result.count;
 

@@ -99,6 +99,7 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
     const include: Includeable[] = [
       {
         model: User.model,
+        as: 'user_id',
         where: {
           id: user.id
         },
@@ -120,7 +121,13 @@ export default class Invoice extends BaseModel implements Partial<IInvoice> {
 
     const response = new MongoResponse();
 
-    response.response = result.rows.map(item => new Invoice(item).toObjectResponse());
+    response.response = result.rows.map(item => {
+      const value = new Invoice(item).toObjectResponse();
+
+      value.user = new User(item.user_id).toObjectResponse();
+
+      return value;
+    });
 
     response.total = result.count;
 
