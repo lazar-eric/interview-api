@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "src",
+    "test"
+  ],
+  "ext": "ts,tsx",
+  "execMap": {
+    "js": "ts-node ./src/index.ts"
+  }
+}
