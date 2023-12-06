@@ -1,4 +1,6 @@
 import http from 'http';
+import os from 'os';
+import cluster from 'cluster';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -8,8 +10,11 @@ import cors from 'cors';
 import config from 'config';
 import { error, init, start } from 'middleware';
 import { DeelService } from 'services';
+import Routes from './routes';
 
 const test = config.value.env === 'test';
+
+const cpus = os.cpus().length;
 
 export let server: http.Server;
 
@@ -158,7 +163,7 @@ export const run = async () => {
   app.use(init);
 
   // routes
-  // Routes(app);
+  Routes(app);
 
   // error
   app.use(error);
@@ -166,7 +171,27 @@ export const run = async () => {
   const httpServer = http.createServer(app);
 
   // Listen
-  server = httpServer.listen(port, () => console.info(`api started 🌱`, port));
+  server = httpServer.listen(port, () => console.info(`api started 🌱 \nport: ${port}\npid: ${process.pid}\n`));
 };
 
-run();
+// With clustering
+// or better use pm2 as the process manager
+// or custom implementation below
+if (cluster.isPrimary) {
+  // Create a server for each CPU as forked process
+  for (let i = 0; i < cpus; i++) cluster.fork();
+
+  cluster.on('online', function (worker) {
+    console.log(`Worker, pid: ${worker.process.pid} started`);
+  });
+
+  cluster.on('exit', function (worker, code, signal) {
+    console.log(`Worker, pid: ${worker.process.pid} closed`);
+  });
+}
+else {
+  run();
+}
+
+// Without clustering
+// run();

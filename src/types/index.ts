@@ -7,7 +7,7 @@ export interface IRequest extends express.Request {
     start: number;
   };
 
-  // user: User;
+  user: any;
 }
 
 export interface IResponse extends express.Response {

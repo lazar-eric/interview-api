@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@amaui/api@^1.0.38":
+  version "1.0.38"
+  resolved "https://registry.yarnpkg.com/@amaui/api/-/api-1.0.38.tgz#0cc8476f0f2c206133994d1accbe745f7a1acb8b"
+  integrity sha512-fyhC9TUsh9MmJzNOX9IchIGg6+LiYLdD89uxm1gCNay6cIIe3VU+36v5iYhtzYMp0EynK0C/8Oec3lDr1FqoKw==
+  dependencies:
+    "@amaui/errors" "^1.0.111"
+    "@amaui/meta" "^1.0.11143"
+    "@babel/runtime" "^7.18.3"
+
 "@amaui/date@^1.1.8":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@amaui/date/-/date-1.1.8.tgz#d90ef351c77d021b49e7ed6116a85939365f02c1"
@@ -15,6 +24,14 @@
   resolved "https://registry.yarnpkg.com/@amaui/errors/-/errors-1.0.111.tgz#c5b06d4d4e9a29f9640a4939b3b6c92c2b6d22cf"
   integrity sha512-BDg5f3S/BVAfRp4a4XFj/JgeIZPUjYzc7a3im2rtgzWl05LIz2ZzgIVIJWEr+Vj2/vRQgvIiL/3fbC7RKFki1A==
   dependencies:
+    "@babel/runtime" "^7.18.3"
+
+"@amaui/meta@^1.0.11143":
+  version "1.0.11143"
+  resolved "https://registry.yarnpkg.com/@amaui/meta/-/meta-1.0.11143.tgz#65ed75a4836e45b4710cd5554731d43ffd4dca8f"
+  integrity sha512-3X+EtWL91fKcAYCsBYm+5oJV0XLWrrr+mrfH0yyd6hCnKSh0GSmG7WPTHDM+8fS12JpRdJ1KEOFHsGx+L4HuCQ==
+  dependencies:
+    "@amaui/utils" "^1.0.11447"
     "@babel/runtime" "^7.18.3"
 
 "@amaui/models@^1.1.18":

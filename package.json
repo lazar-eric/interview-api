@@ -28,6 +28,7 @@
     "postdocker": "sleep 1 && yarn aws ; yarn aws-test"
   },
   "dependencies": {
+    "@amaui/api": "^1.0.38",
     "@amaui/date": "^1.1.8",
     "@amaui/errors": "^1.0.111",
     "@amaui/models": "^1.1.18",
