@@ -32,15 +32,4 @@ export default class PostRoute extends BaseRoute {
     return Response.fromQuery(response);
   }
 
-
-  @Get(
-    '/:id'
-    // permission(['invoice_read'])
-  )
-  public async get(req: IRequest) {
-    const response = await InvoiceService.get(req);
-
-    return Response.fromObject(response);
-  }
-
 }

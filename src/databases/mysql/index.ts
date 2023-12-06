@@ -6,6 +6,10 @@ export class MySQL {
   public sequelize: Sequelize;
   public connected = false;
 
+  public constructor() {
+    this.sequelize = new Sequelize({ dialect: 'mysql' });
+  }
+
   public async connection() {
     if (this.connected) return this.sequelize;
 

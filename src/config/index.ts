@@ -21,7 +21,7 @@ class Config {
   private values = {
     port: 4000,
     env: 'development',
-    private: 'deel',
+    private: 'company',
 
     limits: {
       // api

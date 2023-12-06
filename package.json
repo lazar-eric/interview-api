@@ -1,18 +1,18 @@
 {
-  "name": "@deel/mini-api",
+  "name": "@company/mini-api",
   "version": "1.0.0",
-  "description": "Interview deel mini API",
+  "description": "Interview company mini API",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lazar-eric/interview-deel-api.git"
+    "url": "git+https://github.com/lazar-eric/interview-company-api.git"
   },
   "author": "Lazar Eric",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lazar-eric/interview-deel-api/issues"
+    "url": "https://github.com/lazar-eric/interview-company-api/issues"
   },
-  "homepage": "https://github.com/lazar-eric/interview-deel-api#readme",
+  "homepage": "https://github.com/lazar-eric/interview-company-api#readme",
   "scripts": {
     "dev": "cross-env NODE_PATH=./src NODE_ENV=local nodemon ./src/index.ts",
     "start": "cross-env NODE_ENV=production node ./build",
@@ -22,9 +22,9 @@
     "type": "tsc --noEmit",
     "cov": "cross-env NODE_PATH=./src NODE_ENV=test amaui-test",
     "test": "yarn lint && yarn type && yarn build && yarn cov",
-    "docker": "docker-compose -p 'deel' up -d",
-    "aws": "cross-env AWS_ACCESS_KEY_ID=deel AWS_SECRET_ACCESS_KEY=deel aws s3 mb s3://deel --endpoint-url http://localhost:4566",
-    "aws-test": "cross-env AWS_ACCESS_KEY_ID=deel AWS_SECRET_ACCESS_KEY=deel aws s3 mb s3://deel-test --endpoint-url http://localhost:7566",
+    "docker": "docker-compose -p 'company' up -d",
+    "aws": "cross-env AWS_ACCESS_KEY_ID=company AWS_SECRET_ACCESS_KEY=company aws s3 mb s3://company --endpoint-url http://localhost:4566",
+    "aws-test": "cross-env AWS_ACCESS_KEY_ID=company AWS_SECRET_ACCESS_KEY=company aws s3 mb s3://company-test --endpoint-url http://localhost:7566",
     "postdocker": "sleep 1 && yarn aws ; yarn aws-test"
   },
   "dependencies": {

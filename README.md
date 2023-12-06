@@ -1,2 +1,2 @@
-# interview-deel-api
-Interview deel mini API 
+# interview-api
+Interview mini API

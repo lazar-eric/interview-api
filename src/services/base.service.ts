@@ -12,32 +12,12 @@ export class BaseService<IModel> {
   ) { }
 
   public async add(req: IRequest): Promise<IModel> {
-    return;
-  }
+    // Todo
+    // validate usage limits
+    // for writes, or whatever
+    const invoice = new this.Model(req.body);
 
-  public async get(req: IRequest): Promise<IModel> {
-    // const {
-
-    // } = req;
-
-    // const id = req.params.id;
-
-    // const query = {
-    //   // regional
-    //   country: organization.country,
-
-    //   _id: this.ID(id),
-
-    //   'organization.id': organization._id
-    // };
-
-    // const response: any = await this.Models.findOne(query);
-
-    // if (!response) throw new ValidationError(`${this.name} not found`);
-
-    // return response;
-
-    return;
+    return invoice.add(req);
   }
 
   public async query(req: IRequest): Promise<IMongoResponse> {

@@ -4,13 +4,13 @@ version: '3.8'
 services:
   mysql:
     image: mysql
-    container_name: mysql-deel
+    container_name: mysql-company
     restart: always
     environment:
-      MYSQL_DATABASE: 'deel'
+      MYSQL_DATABASE: 'company'
       MYSQL_USER: 'lazar'
-      MYSQL_PASSWORD: 'deel'
-      MYSQL_ROOT_PASSWORD: 'deel'
+      MYSQL_PASSWORD: 'company'
+      MYSQL_ROOT_PASSWORD: 'company'
     ports:
       - '3306:3306'
     volumes:
@@ -18,31 +18,31 @@ services:
 
   postgres:
     image: postgres
-    container_name: postgres-deel
+    container_name: postgres-company
     ports:
       - 5432:5432
     volumes:
       - ~/.apps/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=lazar
-      - POSTGRES_PASSWORD=deel
-      - POSTGRES_DB=deel
+      - POSTGRES_PASSWORD=company
+      - POSTGRES_DB=company
 
   adminer:
     image: adminer
-    container_name: adminer-deel
+    container_name: adminer-company
     restart: always
     ports:
       - 8080:8080
 
   localstack:
     image: localstack/localstack:latest
-    container_name: localstack-deel
+    container_name: localstack-company
     environment:
       - SERVICES=s3
       - AWS_DEFAULT_REGION=eu-central-1
     volumes:
-      - '~/.deel/localstack:/.localstackDeel'
+      - '~/.company/localstack:/.localstackCompany'
       - '/var/run/docker.sock:/var/run/docker.sock'
     ports:
       - '4563-4599:4563-4599'
@@ -50,13 +50,13 @@ services:
 
   localstack-test:
     image: localstack/localstack:latest
-    container_name: localstack-test-deel
+    container_name: localstack-test-company
     environment:
       - SERVICES=s3
       - AWS_DEFAULT_REGION=eu-central-1
-      - DATA_DIR=~/.deel/test/localstack/data
+      - DATA_DIR=~/.company/test/localstack/data
     volumes:
-      - '~/.deel/test/localstack:/.localstackDeel'
+      - '~/.company/test/localstack:/.localstackCompany'
       - '/var/run/docker.sock:/var/run/docker.sock'
     ports:
       - '7563-7599:4563-4599'

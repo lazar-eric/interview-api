@@ -9,9 +9,9 @@ import cors from 'cors';
 
 import config from 'config';
 import { error, init, start } from 'middleware';
-import { DeelService } from 'services';
-import Routes from './routes';
+import { CompanyService } from 'services';
 import { mysql } from 'databases';
+import Routes from './routes';
 
 const test = config.value.env === 'test';
 
@@ -75,10 +75,10 @@ export const run = async () => {
   // start the db, and end it
   if (!test) {
     // mysql
-    await mysql.connect();
+    await mysql.connection();
 
     // init
-    await DeelService.init();
+    await CompanyService.init();
   }
 
   // Process
@@ -178,21 +178,21 @@ export const run = async () => {
 // With clustering
 // or better use pm2 as the process manager
 // or custom implementation below
-if (cluster.isPrimary) {
-  // Create a server for each CPU as forked process
-  for (let i = 0; i < cpus; i++) cluster.fork();
+// if (cluster.isPrimary) {
+//   // Create a server for each CPU as forked process
+//   for (let i = 0; i < cpus; i++) cluster.fork();
 
-  cluster.on('online', function (worker) {
-    console.log(`Worker, pid: ${worker.process.pid} started`);
-  });
+//   cluster.on('online', function (worker) {
+//     console.log(`Worker, pid: ${worker.process.pid} started`);
+//   });
 
-  cluster.on('exit', function (worker, code, signal) {
-    console.log(`Worker, pid: ${worker.process.pid} closed`);
-  });
-}
-else {
-  run();
-}
+//   cluster.on('exit', function (worker, code, signal) {
+//     console.log(`Worker, pid: ${worker.process.pid} closed`);
+//   });
+// }
+// else {
+//   run();
+// }
 
 // Without clustering
-// run();
+run();

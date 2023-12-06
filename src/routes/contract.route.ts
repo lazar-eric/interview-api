@@ -44,15 +44,4 @@ export default class PostRoute extends BaseRoute {
     return Response.fromQuery(response);
   }
 
-
-  @Get(
-    '/:id'
-    // permission(['contract_read'])
-  )
-  public async get(req: IRequest) {
-    const response = await ContractService.get(req);
-
-    return Response.fromObject(response);
-  }
-
 }

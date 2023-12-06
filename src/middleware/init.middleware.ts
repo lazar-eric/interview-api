@@ -6,7 +6,7 @@ import { INext, IRequest, IResponse } from '../types';
 
 const method = async (req: IRequest, res: IResponse, next: INext) => {
   try {
-    const token = (req.headers.authorization || req.query.deel_token as string);
+    const token = (req.headers.authorization || req.query.company_token as string);
 
     // FYI
     // for the sake of quick example implanting dummy user
