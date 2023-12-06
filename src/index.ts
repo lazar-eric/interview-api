@@ -11,6 +11,7 @@ import config from 'config';
 import { error, init, start } from 'middleware';
 import { DeelService } from 'services';
 import Routes from './routes';
+import { mysql } from 'databases';
 
 const test = config.value.env === 'test';
 
@@ -74,7 +75,7 @@ export const run = async () => {
   // start the db, and end it
   if (!test) {
     // mysql
-    // await mongo.connection;
+    await mysql.connect();
 
     // init
     await DeelService.init();
@@ -85,7 +86,7 @@ export const run = async () => {
   const clean = async () => {
     try {
       // mysql
-      // await mongo.disconnect;
+      await mysql.disconnect();
     }
     catch (error) {
       console.warn('Clean', error);
@@ -171,7 +172,7 @@ export const run = async () => {
   const httpServer = http.createServer(app);
 
   // Listen
-  server = httpServer.listen(port, () => console.info(`api started 🌱 \nport: ${port}\npid: ${process.pid}\n`));
+  server = httpServer.listen(port, () => console.info(`\napi started 🌱 \nport: ${port}\npid: ${process.pid}`));
 };
 
 // With clustering
