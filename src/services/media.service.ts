@@ -152,7 +152,8 @@ export class MediaService extends BaseService<IMedia> {
           as: 'user_id',
           where: {
             id: user.id
-          }
+          },
+          required: true
         }
       ]
     });
@@ -189,17 +190,7 @@ export class MediaService extends BaseService<IMedia> {
     const media = await Media.model.findOne({
       where: {
         id: +id
-      },
-
-      include: [
-        {
-          model: User.model,
-          as: 'user_id',
-          where: {
-            id: user.id
-          }
-        }
-      ]
+      }
     }) as Media;
 
     if (!media) throw new ValidationError(`Media not found`);
