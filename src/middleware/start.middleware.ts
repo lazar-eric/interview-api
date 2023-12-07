@@ -2,6 +2,7 @@ import { getID, castParam } from '@amaui/utils';
 import { AmauiDate } from '@amaui/date';
 
 import { INext, IRequest, IResponse } from '../types';
+import config from 'config';
 
 const method = async (req: IRequest, res: IResponse, next: INext) => {
   try {
@@ -10,7 +11,9 @@ const method = async (req: IRequest, res: IResponse, next: INext) => {
 
     req.duration = { start: AmauiDate.milliseconds };
 
-    console.debug('Start', req.id, req.method, req.originalUrl);
+    const test = config.value.env === 'test';
+
+    if (!test) console.debug('Start', req.id, req.method, req.originalUrl);
 
     // Cast params
     try {

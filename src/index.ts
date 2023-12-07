@@ -17,6 +17,8 @@ const test = config.value.env === 'test';
 
 const cpus = os.cpus().length;
 
+export let app: express.Express;
+
 export let server: http.Server;
 
 export const run = async () => {
@@ -26,7 +28,7 @@ export const run = async () => {
 
   // App
 
-  const app = express();
+  app = express();
 
   app.set('subdomain offset', 1);
 
@@ -173,6 +175,8 @@ export const run = async () => {
 
   // Listen
   server = httpServer.listen(port, () => console.info(`\napi started 🌱 \nport: ${port}\npid: ${process.pid}`));
+
+  return server;
 };
 
 // With clustering

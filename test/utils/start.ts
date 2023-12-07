@@ -1,7 +1,5 @@
 import { Sequelize } from 'sequelize';
 
-import { wait } from '@amaui/utils';
-
 import config from 'config';
 import { contract, invoice, media, user } from 'databases/mysql/models';
 import { IUser } from 'models/user.model';
@@ -13,6 +11,8 @@ const models: any = {
   invoice: undefined,
   contract: undefined
 };
+
+global.models = models;
 
 const init = async (sequelize: Sequelize) => {
   // init all the models
@@ -49,12 +49,12 @@ const init = async (sequelize: Sequelize) => {
 
 const users = async () => {
   const values: Partial<IUser>[] = [
-    { name: 'Lazar Eric', email: 'lazareric2@gmail.com' }
+    { id: 1, name: 'Lazar Eric', email: 'lazareric2@gmail.com' }
   ];
 
   const response = await models.user.bulkCreate(values);
 
-  console.log('Users added', values.length);
+  //  console.log('Users added', values.length);
 
   return response;
 };
@@ -69,7 +69,7 @@ const invoices = async () => {
 
   const response = await models.invoice.bulkCreate(values);
 
-  console.log('Invoices added', values.length);
+  // console.log('Invoices added', values.length);
 
   return response;
 };
@@ -80,11 +80,13 @@ const add = async () => {
   await invoices();
 };
 
+global.add = add;
+
 preEveryGroup(async () => {
   try {
     const uri = config.value.db.mysql.uri;
 
-    const sequelize = new Sequelize(uri);
+    const sequelize = new Sequelize(uri, { logging: false });
 
     await sequelize.authenticate();
 
@@ -93,7 +95,7 @@ preEveryGroup(async () => {
     await add();
   }
   catch (error) {
-    console.log('preEveryGroup error', error);
+    // console.log('preEveryGroup error', error);
   }
 });
 
@@ -101,11 +103,11 @@ postEveryGroup(async () => {
   try {
     const uri = config.value.db.mysql.uri;
 
-    const sequelize = new Sequelize(uri);
+    const sequelize = new Sequelize(uri, { logging: false });
 
     // drop all the tables
     if (uri.includes('company-test')) {
-      console.log(`Removing test db ${uri}`);
+      // console.log(`Removing test db ${uri}`);
 
       await sequelize.authenticate();
 
@@ -119,6 +121,6 @@ postEveryGroup(async () => {
     }
   }
   catch (error) {
-    console.log('postEveryGroup error', error);
+    // console.log('postEveryGroup error', error);
   }
 });

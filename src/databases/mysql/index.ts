@@ -14,12 +14,14 @@ export class MySQL {
 
   public async init() {
     // init all the models
-    const options = config.value.env === 'test' ? { force: true } : undefined;
+    const options = config.value.env === 'test' ? {} : undefined;
 
     // User
     const userModel = user();
 
     User.model = this.sequelize.define(userModel.name, userModel.object, userModel.options);
+
+    await User.model.sync(options);
 
     // Media
     const mediaModel = media(User.model);
@@ -28,12 +30,16 @@ export class MySQL {
 
     Media.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
+    await Media.model.sync(options);
+
     // Invoice
     const invoiceModel = invoice(User.model);
 
     Invoice.model = this.sequelize.define(invoiceModel.name, invoiceModel.object, invoiceModel.options);
 
     Invoice.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
+
+    await Invoice.model.sync(options);
 
     // Contract
     const contractModel = contract(User.model);
@@ -42,8 +48,7 @@ export class MySQL {
 
     Contract.model.belongsTo(User.model, { foreignKey: 'user', as: 'user_id' });
 
-    // create tables
-    await this.sequelize.sync(options);
+    await Contract.model.sync(options);
   }
 
   public async connection() {
@@ -53,17 +58,19 @@ export class MySQL {
   }
 
   public async connect() {
+    const test = config.value.env === 'test';
+
     try {
-      this.sequelize = new Sequelize(config.value.db.mysql.uri);
+      this.sequelize = new Sequelize(config.value.db.mysql.uri, { logging: false });
 
       await this.sequelize.authenticate();
 
       await this.init();
 
-      console.log(`MySQL connected`);
+      if (!test) console.log(`MySQL connected`);
     }
     catch (error) {
-      console.error(`MySQL connection error`, error);
+      if (!test) console.error(`MySQL connection error`, error);
 
       // throw error
       // to terminate the server

@@ -2,6 +2,7 @@ import { getObjectValue } from '@amaui/utils';
 
 import { INext, IRequest, IResponse } from 'types';
 import { requestDuration } from 'utils';
+import config from 'config';
 
 export class BaseRoute {
 
@@ -43,7 +44,9 @@ export class BaseRoute {
   ) {
     const duration = requestDuration(req);
 
-    console.debug('Done', req.id, duration);
+    const test = config.value.env === 'test';
+
+    if (!test) console.debug('Done', req.id, duration);
   }
 
 }

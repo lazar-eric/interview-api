@@ -1,4 +1,3 @@
-import { ValidationError } from '@amaui/errors';
 import { IMongoResponse } from '@amaui/models';
 
 import { IRequest } from 'types';
